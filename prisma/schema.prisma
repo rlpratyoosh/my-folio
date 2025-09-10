@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client-js"
   output   = "../src/generated/prisma"
@@ -7,4 +6,134 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+enum UserType {
+  ADMIN
+  USER
+}
+
+model User {
+  id         String   @id @default(cuid())
+  name       String
+  email      String   @unique
+  avatarUrl  String?
+  type       UserType @default(USER)
+  createdtAt DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Project {
+  id          String             @id @default(cuid())
+  name        String
+  description String
+  detail      String?
+  gitLink     String
+  projectLink String?
+  ytLink      String?
+  techs       ProjectTechStack[]
+  tags        ProjectTag[]
+  builtAt     String
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+}
+
+enum ProgressType {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCE
+}
+
+model TechStack {
+  id        String             @id @default(cuid())
+  name      String
+  iconUrl   String
+  projects  ProjectTechStack[]
+  progress  ProgressType       @default(BEGINNER)
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+}
+
+model ProjectTechStack {
+  id          String    @id @default(cuid())
+  techStackId String
+  tech        TechStack @relation(fields: [techStackId], references: [id], onDelete: Cascade)
+  projectId   String
+  project     Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Tag {
+  id        String       @id @default(cuid())
+  name      String
+  projects  ProjectTag[]
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+}
+
+model ProjectTag {
+  id        String   @id @default(cuid())
+  tagId     String
+  tag       Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Skill {
+  id        String       @id @default(cuid())
+  name      String
+  iconUrl   String
+  progress  ProgressType @default(BEGINNER)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+}
+
+model Blog {
+  id           String         @id @default(cuid())
+  title        String
+  content      String
+  thumbnailUrl String
+  category     BlogCategory[]
+  published    Boolean        @default(false)
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+}
+
+model Category {
+  id        String         @id @default(cuid())
+  name      String
+  blogs     BlogCategory[]
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+}
+
+model BlogCategory {
+  id         String   @id @default(cuid())
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  blogId     String
+  blog       Blog     @relation(fields: [blogId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Testimonials {
+  id        String   @id @default(cuid())
+  author    String
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
