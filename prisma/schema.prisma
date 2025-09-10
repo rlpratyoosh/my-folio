@@ -14,28 +14,31 @@ enum UserType {
 }
 
 model User {
-  id         String   @id @default(cuid())
-  name       String
-  email      String   @unique
-  avatarUrl  String?
-  type       UserType @default(USER)
-  createdtAt DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  avatarUrl String?
+  type      UserType @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Project {
-  id          String             @id @default(cuid())
-  name        String
-  description String
-  detail      String?
-  gitLink     String
-  projectLink String?
-  ytLink      String?
-  techs       ProjectTechStack[]
-  tags        ProjectTag[]
-  builtAt     String
-  createdAt   DateTime           @default(now())
-  updatedAt   DateTime           @updatedAt
+  id           String             @id @default(cuid())
+  name         String
+  description  String
+  detail       String?            @db.Text
+  thumbnailUrl String             @db.Text
+  gitLink      String             @db.Text
+  projectLink  String?            @db.Text
+  ytLink       String?            @db.Text
+  slug         String             @unique
+  techs        ProjectTechStack[]
+  tags         ProjectTag[]
+  builtAt      String
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
 }
 
 enum ProgressType {
@@ -46,8 +49,8 @@ enum ProgressType {
 
 model TechStack {
   id        String             @id @default(cuid())
-  name      String
-  iconUrl   String
+  name      String             @unique
+  iconUrl   String             @db.Text
   projects  ProjectTechStack[]
   progress  ProgressType       @default(BEGINNER)
   createdAt DateTime           @default(now())
@@ -66,7 +69,7 @@ model ProjectTechStack {
 
 model Tag {
   id        String       @id @default(cuid())
-  name      String
+  name      String       @unique
   projects  ProjectTag[]
   createdAt DateTime     @default(now())
   updatedAt DateTime     @updatedAt
@@ -84,7 +87,7 @@ model ProjectTag {
 
 model Skill {
   id        String       @id @default(cuid())
-  name      String
+  name      String       @unique
   iconUrl   String
   progress  ProgressType @default(BEGINNER)
   createdAt DateTime     @default(now())
@@ -94,17 +97,20 @@ model Skill {
 model Blog {
   id           String         @id @default(cuid())
   title        String
-  content      String
-  thumbnailUrl String
+  content      String         @db.Text
+  thumbnailUrl String         @db.Text
+  slug         String         @unique
   category     BlogCategory[]
   published    Boolean        @default(false)
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
+
+  @@index([published, createdAt])
 }
 
 model Category {
   id        String         @id @default(cuid())
-  name      String
+  name      String         @unique
   blogs     BlogCategory[]
   createdAt DateTime       @default(now())
   updatedAt DateTime       @updatedAt
@@ -124,13 +130,15 @@ model Message {
   id        String   @id @default(cuid())
   name      String
   email     String
-  message   String
+  message   String   @db.Text
   read      Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([read, createdAt])
 }
 
-model Testimonials {
+model Testimonial {
   id        String   @id @default(cuid())
   author    String
   content   String
