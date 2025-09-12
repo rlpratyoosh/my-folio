@@ -6,7 +6,8 @@ export const db = {
     user: {
         create: async (data: { name: string; email: string; password: string; avatarUrl?: string }) =>
             await prisma.user.create({ data }),
-        findUnique: async (where: { id: string }) => await prisma.user.findUnique({ where }),
+        findUnique: async (where: { email: string }) => await prisma.user.findUnique({ where }),
+        delete: async (where: { id: string }) => await prisma.user.delete({ where }),
     },
     project: {
         create: async (data: {
