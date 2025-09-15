@@ -228,7 +228,7 @@ export default function Home() {
                                 <div className="bg-white text-black rounded-xl py-1 px-3 text-base flex items-center justify-center gap-2">
                                     <FiGithub /> Repo
                                 </div>
-                                <div className="border-2 border-green-400  text-white rounded-xl py-1 px-3 text-base flex items-center justify-center gap-3">
+                                <div className="border-2 border-green-400  text-white rounded-2xl py-1 px-3 text-base flex items-center justify-center gap-3">
                                     <IoMdOpen /> Live
                                 </div>
                             </div>

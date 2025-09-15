@@ -71,7 +71,7 @@ model Tag {
   id        String       @id @default(cuid())
   name      String       @unique
   projects  ProjectTag[]
-  createdAt DateTime     @default(now())
+  createdAt DateTime     @default(now()) 
   updatedAt DateTime     @updatedAt
 }
 
