@@ -6,9 +6,9 @@ export default function UserLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <>
+        <div className="dark">
             <NavBar />
             <div className="mt-20">{children}</div>
-        </>
+        </div>
     );
 }

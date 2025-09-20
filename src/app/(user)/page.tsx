@@ -1,11 +1,11 @@
 "use client";
 import GreenPatch from "@/components/GreenPatch";
-import { PiTreasureChestFill } from "react-icons/pi";
 import SeparatorLine from "@/components/SeparatorLine";
-import { IoLogoInstagram, IoLogoLinkedin, IoMdMail, IoMdOpen } from "react-icons/io";
+import { Project as PrismaProject, ProjectTag, ProjectTechStack, Skill, Tag, TechStack } from "@/generated/prisma";
+import { useEffect, useState } from "react";
 import { FiGithub } from "react-icons/fi";
-import { useState, useEffect } from "react";
-import { Skill, TechStack, Project as PrismaProject, ProjectTechStack, ProjectTag, Tag } from "@/generated/prisma";
+import { IoLogoInstagram, IoLogoLinkedin, IoMdMail, IoMdOpen } from "react-icons/io";
+import { PiTreasureChestFill } from "react-icons/pi";
 
 interface Project extends PrismaProject {
     techs: Array<
@@ -237,14 +237,43 @@ export default function Home() {
                                                 className="text-green-500"
                                             />
                                         </svg>
-                                        {/* Percentage text */}
-                                        <span className="absolute text-lg font-bold">{percentage}%</span>
+                                        {/* Absolute positioning to center the image */}
+                                        <div className="absolute inset-0 flex items-center justify-center bg-green-500/10 rounded-full">
+                                            <img
+                                                src={skill.iconUrl}
+                                                alt={skill.name}
+                                                className="w-10 h-10 object-contain"
+                                            />
+                                        </div>
                                     </div>
                                     {/* Skill name */}
                                     <span className="mt-4 text-sm text-center">{skill.name}</span>
                                 </div>
                             );
                         })}
+                    </div>
+                </div>
+            </div>
+
+            <SeparatorLine />
+
+            {/* Tech Stack */}
+            <div className="flex flex-col items-start justify-center">
+                <span className="text-4xl font-bold ml-6">Stacks</span>
+                <div className="h-0.5 w-1/2 bg-green-500 mt-1"></div>
+                <div className="w-full mt-10 px-8">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 items-center justify-items-center">
+                        {techs.map(tech => (
+                            <div
+                                key={tech.name}
+                                className="flex flex-col items-center justify-center bg-green-900/20 backdrop-blur-sm hover:bg-green-900/30 transition-all duration-300 p-4 rounded-xl hover:scale-105 w-full"
+                            >
+                                <div className="w-14 h-14 flex items-center justify-center bg-green-500/10 rounded-xl">
+                                    <img src={tech.iconUrl} alt={tech.name} className="w-10 h-10 object-contain" />
+                                </div>
+                                <span className="mt-3 text-sm text-center">{tech.name}</span>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>
