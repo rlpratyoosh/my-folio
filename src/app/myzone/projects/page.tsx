@@ -157,7 +157,6 @@ export default function ProjectsPage() {
             setProjects([...projects, newProject]);
             setFormSuccess("Project created successfully!");
 
-            // Reset form after successful submission
             setTimeout(() => {
                 closeModal();
             }, 2000);
@@ -280,7 +279,7 @@ export default function ProjectsPage() {
             )}
 
             {formOpen && (
-                <div className="fixed h-9/10 min-w-9/10 bg-background border-2 rounded-lg p-5 overflow-scroll">
+                <div className="fixed top-10 left-75 h-9/10 md:min-w-7/10 min-w-8/10 bg-background border-2 rounded-lg p-5 overflow-scroll">
                     <div className="flex items-center justify-between">
                         <h2 className="text-2xl">Add New Project</h2>
                         <Button onClick={() => setFormOpen(false)} variant="ghost" className="text-xl w-10 h-10">
@@ -504,7 +503,7 @@ export default function ProjectsPage() {
                                 ))}
                             </div>
 
-                            <Button>Submit</Button>
+                            <Button type="submit">Submit</Button>
                         </form>
                     </Form>
                 </div>

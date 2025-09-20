@@ -27,3 +27,8 @@ export const techStackSchema = z.object({
     name: z.string().min(1, "Name is required").max(50, "Name must be less than 50 characters"),
     iconUrl: z.string().url("Invalid URL").optional(),
 })
+
+export const skillSchema = z.object({
+    name: z.string().min(1, "Name is required").max(50, "Name must be less than 50 characters"),
+    iconUrl: z.string().url("Invalid URL").optional(),
+})

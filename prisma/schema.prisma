@@ -44,7 +44,7 @@ model Project {
 enum ProgressType {
   BEGINNER
   INTERMEDIATE
-  ADVANCE
+  ADVANCED
 }
 
 model TechStack {

@@ -1,40 +1,90 @@
+"use client";
 import GreenPatch from "@/components/GreenPatch";
 import { PiTreasureChestFill } from "react-icons/pi";
 import SeparatorLine from "@/components/SeparatorLine";
-import Image from "next/image";
 import { IoLogoInstagram, IoLogoLinkedin, IoMdMail, IoMdOpen } from "react-icons/io";
 import { FiGithub } from "react-icons/fi";
+import { useState, useEffect } from "react";
+import { Skill, TechStack, Project as PrismaProject, ProjectTechStack, ProjectTag, Tag } from "@/generated/prisma";
+
+interface Project extends PrismaProject {
+    techs: Array<
+        ProjectTechStack & {
+            tech: TechStack;
+        }
+    >;
+    tags: Array<
+        ProjectTag & {
+            tag: Tag;
+        }
+    >;
+}
 
 export default function Home() {
-    const skills = [
-        { name: "Problem Solving", level: "Beginner" },
-        { name: "Full Stack Dev", level: "Advanced" },
-        { name: "Version Control", level: "Intermediate" },
-        { name: "Designing", level: "Beginner" },
-    ];
+    const [skills, setSkills] = useState<Skill[]>([]);
+    const [techs, setTechs] = useState<TechStack[]>([]);
+    const [projects, setProjects] = useState<Project[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
 
-    const projects = [
-        {
-            title: "Project One",
-            description: "A cool project that does amazing things.",
-            thumbnailUrl: "/project1.png",
-        },
-        {
-            title: "Project Two",
-            description: "Another cool project that does even more amazing things.",
-            thumbnailUrl: "/project2.png",
-        },
-        {
-            title: "Project Three",
-            description: "Another cool project that does even more amazing things.",
-            thumbnailUrl: "/project2.png",
-        },
-        {
-            title: "Project Four",
-            description: "Another cool project that does even more amazing things.",
-            thumbnailUrl: "/project2.png",
-        },
-    ];
+    useEffect(() => {
+        const fetchSkills = async () => {
+            try {
+                setLoading(true);
+                const response = await fetch("/api/skill", {
+                    method: "GET",
+                });
+                const data = await response.json();
+                if (data.error) throw new Error(error);
+                const skillData = data as Skill[];
+                setSkills(skillData);
+            } catch (er) {
+                er instanceof Error ? setError(er.message) : setError("Something went wrong");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        const fetchTechs = async () => {
+            try {
+                setLoading(true);
+                const res = await fetch("/api/techstack", {
+                    method: "GET",
+                });
+                const data = await res.json();
+                if (data.error) throw new Error(error);
+                const techData = data as TechStack[];
+                setTechs(techData);
+            } catch (er) {
+                er instanceof Error ? setError(er.message) : setError("Something went wrong");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        const fetchProjects = async () => {
+            try {
+                setLoading(true);
+                const res = await fetch("/api/project", {
+                    method: "GET",
+                });
+                const data = await res.json();
+                if (data.error) throw new Error(error);
+                const projectData = data as Project[];
+                setProjects(projectData);
+            } catch (er) {
+                er instanceof Error ? setError(er.message) : setError("Something went wrong");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchSkills();
+        fetchTechs();
+        fetchProjects();
+    }, []);
+
+    if (loading) return <>Loading...</>;
 
     return (
         <div className="flex flex-col gap-10 min-w-screen relative">
@@ -81,12 +131,12 @@ export default function Home() {
                         Open LootBox <PiTreasureChestFill className="text-lg" />
                     </button>
                 </div>
-                {/* Profile image with effects */}
+                {/* Profile img with effects */}
                 <div className="relative w-full flex justify-end mt-10">
-                    <Image src={"/av.png"} alt="Description" width={500} height={500} />
+                    <img src={"/av.png"} alt="Description" width={500} height={500} />
                     {/* Green glow effect */}
                     <div className="absolute top-0 left-6 rounded-full h-50 w-50 bg-green-500 opacity-30 blur-3xl z-[-1]"></div>
-                    {/* Shadow under image */}
+                    {/* Shadow under img */}
                     <div className="absolute bottom-12 w-full bg-black blur-2xl h-20"></div>
                 </div>
             </div>
@@ -149,11 +199,11 @@ export default function Home() {
                     <div className="grid grid-cols-2 gap-8 items-center justify-center">
                         {skills.map(skill => {
                             const percentage =
-                                skill.level === "Advanced"
+                                skill.progress === "ADVANCED"
                                     ? 90
-                                    : skill.level === "Intermediate"
+                                    : skill.progress === "INTERMEDIATE"
                                     ? 60
-                                    : skill.level === "Beginner"
+                                    : skill.progress === "BEGINNER"
                                     ? 30
                                     : 15;
                             const circumference = 2 * Math.PI * 45;
@@ -191,7 +241,7 @@ export default function Home() {
                                         <span className="absolute text-lg font-bold">{percentage}%</span>
                                     </div>
                                     {/* Skill name */}
-                                    <span className="mt-4 text-base">{skill.name}</span>
+                                    <span className="mt-4 text-sm text-center">{skill.name}</span>
                                 </div>
                             );
                         })}
@@ -208,10 +258,10 @@ export default function Home() {
                     {projects.map(project => (
                         <div
                             className="flex flex-col items-start justify-center border border-green-950/20 rounded-xl bg-green-950/20 backdrop-blur-md shadow-xl transition-all duration-300"
-                            key={project.title}
+                            key={project.name}
                         >
                             <div className="relative w-full overflow-hidden rounded-t-xl">
-                                <Image
+                                <img
                                     src={project.thumbnailUrl}
                                     alt={""}
                                     width={400}
@@ -221,7 +271,7 @@ export default function Home() {
                                 <div className="absolute inset-0 bg-gradient-to-t from-green-900/70 to-transparent"></div>
                             </div>
                             <div className="flex flex-col items-start justify-center gap-2 px-5 pt-3">
-                                <span className="text-xl">{project.title}</span>
+                                <span className="text-xl">{project.name}</span>
                                 <p className="text-xs text-white/80">{project.description}</p>
                             </div>
                             <div className="flex items-start justify-center gap-3 py-5 px-4">
@@ -280,21 +330,30 @@ export default function Home() {
             <SeparatorLine />
             {/* Footer */}
             <div className="flex flex-col items-center justify-center w-full gap-4 py-6">
-              <div className="flex items-center justify-center gap-6">
-                <a href="https://github.com/rlpratyoosh" className="text-2xl hover:text-green-400 transition-colors">
-                  <FiGithub />
-                </a>
-                <a href="https://instagram.com/rlpratyoosh" className="text-2xl hover:text-green-400 transition-colors">
-                  <IoLogoInstagram />
-                </a>
-                <a href="https://linkedin.com/in/rlpratyoosh" className="text-2xl hover:text-green-400 transition-colors">
-                  <IoLogoLinkedin />
-                </a>
-              </div>
-              <div className="text-sm text-center">
-                <p>Made with ❤️ by Pratyoosh</p>
-                <p className="text-xs text-gray-500 mb-2">Designed by Meet</p>
-              </div>
+                <div className="flex items-center justify-center gap-6">
+                    <a
+                        href="https://github.com/rlpratyoosh"
+                        className="text-2xl hover:text-green-400 transition-colors"
+                    >
+                        <FiGithub />
+                    </a>
+                    <a
+                        href="https://instagram.com/rlpratyoosh"
+                        className="text-2xl hover:text-green-400 transition-colors"
+                    >
+                        <IoLogoInstagram />
+                    </a>
+                    <a
+                        href="https://linkedin.com/in/rlpratyoosh"
+                        className="text-2xl hover:text-green-400 transition-colors"
+                    >
+                        <IoLogoLinkedin />
+                    </a>
+                </div>
+                <div className="text-sm text-center">
+                    <p>Made with ❤️ by Pratyoosh</p>
+                    <p className="text-xs text-gray-500 mb-2">Designed by Meet</p>
+                </div>
             </div>
         </div>
     );

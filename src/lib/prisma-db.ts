@@ -21,9 +21,15 @@ export const db = {
             slug: string;
             builtAt: string;
         }) => await prisma.project.create({ data }),
-        findAll: async () => await prisma.project.findMany({ include: { techs: { include:  { tech: true }}, tags: { include: {tag: true}} } }),
+        findAll: async () =>
+            await prisma.project.findMany({
+                include: { techs: { include: { tech: true } }, tags: { include: { tag: true } } },
+            }),
         findUnique: async (where: { slug: string }) =>
-            await prisma.project.findUnique({ where, include: { techs: { include: { tech: true } }, tags: { include: { tag: true } } } }),
+            await prisma.project.findUnique({
+                where,
+                include: { techs: { include: { tech: true } }, tags: { include: { tag: true } } },
+            }),
         update: async (
             where: { slug: string },
             data: {
@@ -68,6 +74,8 @@ export const db = {
     skill: {
         create: async (data: { name: string; iconUrl: string; progress: ProgressType }) =>
             await prisma.skill.create({ data }),
+        findAll: async () => await prisma.skill.findMany(),
+        findUnique: async (where: {name: string}) => await prisma.skill.findUnique({ where }),
         update: async (where: { id: string }, data: { name?: string; iconUrl?: string; progress: ProgressType }) =>
             await prisma.skill.update({ where, data }),
         delete: async (where: { id: string }) => await prisma.skill.delete({ where }),
