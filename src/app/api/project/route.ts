@@ -37,24 +37,28 @@ export async function POST(req: Request) {
             builtAt,
         });
 
-        await Promise.all(
-            tags.map(async (name: string) => {
-                let tag = await db.tag.findUnique({ name });
-                if (!tag) {
-                    tag = await db.tag.create({ name });
-                }
-                await db.projectTag.create({ tagId: tag.id, projectId: project.id });
-            })
-        );
+        if (Array.isArray(tags) && tags.length === 0) {
+            await Promise.all(
+                tags.map(async (name: string) => {
+                    let tag = await db.tag.findUnique({ name });
+                    if (!tag) {
+                        tag = await db.tag.create({ name });
+                    }
+                    await db.projectTag.create({ tagId: tag.id, projectId: project.id });
+                })
+            );
+        }
 
-        await Promise.all(
-            techs.map(async (id: string) => {
-                const techStack = await db.techStack.findUnique({ id });
-                if (!techStack)
-                    return NextResponse.json({ error: `Tech stack with id ${id} not found` }, { status: 400 });
-                await db.projectTechStack.create({ techStackId: id, projectId: project.id });
-            })
-        );
+        if (Array.isArray(techs) && techs.length === 0) {
+            await Promise.all(
+                techs.map(async (id: string) => {
+                    const techStack = await db.techStack.findUnique({ id });
+                    if (!techStack)
+                        return NextResponse.json({ error: `Tech stack with id ${id} not found` }, { status: 400 });
+                    await db.projectTechStack.create({ techStackId: id, projectId: project.id });
+                })
+            );
+        }
 
         return NextResponse.json(project, { status: 201 });
     } catch (er) {

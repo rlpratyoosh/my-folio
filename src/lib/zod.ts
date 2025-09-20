@@ -22,3 +22,8 @@ export const projectSchema = z.object({
     slug: z.string().min(1, "Slug is required").max(100, "Slug must be less than 100 characters").regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Slug can only contain lowercase letters, numbers, and hyphens"),
     builtAt: z.string().min(1, "Built At is required"),
 });
+
+export const techStackSchema = z.object({
+    name: z.string().min(1, "Name is required").max(50, "Name must be less than 50 characters"),
+    iconUrl: z.string().url("Invalid URL").optional(),
+})

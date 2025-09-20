@@ -6,6 +6,7 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signInSchema } from "@/lib/zod";
 import { signIn } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
 
 type FormData = z.infer<typeof signInSchema>;
@@ -45,7 +46,12 @@ export default function signInPage() {
     };
 
 
-    if (user) return <p className="m-20">You are already signed in as {user.email}</p>;
+    if (user) return (
+        <div>
+            <p className="m-20">You are already signed in as {user.email} </p>
+            <button onClick={() => signOut()}>Sign Out</button>
+        </div>
+    );
 
 
     return (

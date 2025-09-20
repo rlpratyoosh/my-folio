@@ -21,9 +21,9 @@ export const db = {
             slug: string;
             builtAt: string;
         }) => await prisma.project.create({ data }),
-        findAll: async () => await prisma.project.findMany({ include: { techs: true, tags: true } }),
+        findAll: async () => await prisma.project.findMany({ include: { techs: { include:  { tech: true }}, tags: { include: {tag: true}} } }),
         findUnique: async (where: { slug: string }) =>
-            await prisma.project.findUnique({ where, include: { techs: true, tags: true } }),
+            await prisma.project.findUnique({ where, include: { techs: { include: { tech: true } }, tags: { include: { tag: true } } } }),
         update: async (
             where: { slug: string },
             data: {
@@ -45,6 +45,9 @@ export const db = {
             prisma.techStack.create({ data }),
         findAll: async () => await prisma.techStack.findMany(),
         findUnique: async (where: { id: string }) => await prisma.techStack.findUnique({ where }),
+        findUniqueByName: async (where: { name: string }) => await prisma.techStack.findUnique({ where }),
+        update: async (where: { id: string }, data: { name?: string; iconUrl?: string; progress?: ProgressType }) =>
+            await prisma.techStack.update({ where, data }),
         delete: async (where: { id: string }) => await prisma.techStack.delete({ where }),
     },
     projectTechStack: {
