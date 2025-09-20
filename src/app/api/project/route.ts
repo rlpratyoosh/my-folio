@@ -37,7 +37,7 @@ export async function POST(req: Request) {
             builtAt,
         });
 
-        if (Array.isArray(tags) && tags.length === 0) {
+        if (Array.isArray(tags) && tags.length > 0) {
             await Promise.all(
                 tags.map(async (name: string) => {
                     let tag = await db.tag.findUnique({ name });
@@ -49,7 +49,7 @@ export async function POST(req: Request) {
             );
         }
 
-        if (Array.isArray(techs) && techs.length === 0) {
+        if (Array.isArray(techs) && techs.length > 0) {
             await Promise.all(
                 techs.map(async (id: string) => {
                     const techStack = await db.techStack.findUnique({ id });

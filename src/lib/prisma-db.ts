@@ -57,6 +57,7 @@ export const db = {
     },
     tag: {
         create: async (data: { name: string }) => await prisma.tag.create({ data }),
+        findAll: async () => await prisma.tag.findMany(),
         findUnique: async (where: { name: string }) => await prisma.tag.findUnique({ where }),
         delete: async (where: { id: string }) => await prisma.tag.delete({ where }),
     },

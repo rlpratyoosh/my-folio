@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { SessionProvider } from "next-auth/react";
-import NavBar from "@/components/NavBar";
 
 export const metadata: Metadata = {
   title: "Pratyoosh - A fullstack bugger",
@@ -15,10 +14,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body className="dark">
         <SessionProvider>
-          <NavBar />
-          <main className="mt-20">{children}</main>
+          <main>{children}</main>
         </SessionProvider>
       </body>
     </html>
