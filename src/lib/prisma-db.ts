@@ -1,6 +1,6 @@
 import prisma from "./prisma";
 
-type ProgressType = "ADVANCE" | "INTERMEDIATE" | "BEGINNER";
+type ProgressType = "ADVANCED" | "INTERMEDIATE" | "BEGINNER";
 
 export const db = {
     user: {
@@ -75,7 +75,7 @@ export const db = {
         create: async (data: { name: string; iconUrl: string; progress: ProgressType }) =>
             await prisma.skill.create({ data }),
         findAll: async () => await prisma.skill.findMany(),
-        findUnique: async (where: {name: string}) => await prisma.skill.findUnique({ where }),
+        findUnique: async (where: { name: string }) => await prisma.skill.findUnique({ where }),
         update: async (where: { id: string }, data: { name?: string; iconUrl?: string; progress: ProgressType }) =>
             await prisma.skill.update({ where, data }),
         delete: async (where: { id: string }) => await prisma.skill.delete({ where }),
@@ -112,10 +112,10 @@ export const db = {
         delete: async (where: { id: string }) => await prisma.blogCategory.delete({ where }),
     },
     message: {
-        create: async (data: { name: string; email: string; message: string; read: boolean }) =>
-            await prisma.message.create({ data }),
+        create: async (data: { name: string; email: string; message: string }) => await prisma.message.create({ data }),
         findAll: async () => await prisma.message.findMany(),
         findUnique: async (where: { id: string }) => await prisma.message.findUnique({ where }),
+        update: async (where: { id: string }, data: { read: boolean }) => await prisma.message.update({ where, data }),
         delete: async (where: { id: string }) => await prisma.message.delete({ where }),
     },
     testinomial: {

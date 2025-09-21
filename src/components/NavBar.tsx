@@ -129,12 +129,11 @@ export default function NavBar() {
                             </span>
                         </button>
                         <Link
-                            href="/#contact"
+                            href="https://linkedin.com/in/rlpratyoosh"
                             className="relative overflow-hidden px-2 lg:px-5 py-1 lg:py-2 rounded-full bg-gradient-to-r from-green-500 to-emerald-400 text-black text-xs lg:text-base font-medium hover:shadow-lg hover:shadow-green-500/20 transition-all duration-300 group"
                         >
                             <span className="relative z-10">
-                                <span className="hidden lg:inline">Get in Touch</span>
-                                <span className="inline lg:hidden">Contact</span>
+                                <span className="hidden md:inline">Connect</span>
                             </span>
                             <span className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-all duration-300"></span>
                         </Link>

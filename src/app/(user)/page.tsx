@@ -3,6 +3,8 @@ import GreenPatch from "@/components/GreenPatch";
 import ScrollAnimationWrapper from "@/components/ScrollAnimationWrapper";
 import SeparatorLine from "@/components/SeparatorLine";
 import { Project as PrismaProject, ProjectTag, ProjectTechStack, Skill, Tag, TechStack } from "@/generated/prisma";
+import { useSmoothScroll } from "@/hooks/use-smooth-scroll";
+import { messageSchema } from "@/lib/zod";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -10,6 +12,9 @@ import { FaYoutube } from "react-icons/fa";
 import { FiGithub } from "react-icons/fi";
 import { IoLogoInstagram, IoLogoLinkedin, IoMdMail, IoMdOpen } from "react-icons/io";
 import { PiTreasureChestFill } from "react-icons/pi";
+import { z } from "zod";
+
+type MessageFormData = z.infer<typeof messageSchema>;
 
 interface Project extends PrismaProject {
     techs: Array<
@@ -30,6 +35,69 @@ export default function Home() {
     const [projects, setProjects] = useState<Project[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+
+    // Contact form states
+    const [formData, setFormData] = useState<MessageFormData>({
+        name: "",
+        email: "",
+        message: "",
+    });
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [formSuccess, setFormSuccess] = useState<string | null>(null);
+    const [formError, setFormError] = useState<string | null>(null);
+
+    useSmoothScroll();
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: value,
+        }));
+    };
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+        setFormError(null);
+        setFormSuccess(null);
+
+        try {
+            const result = messageSchema.safeParse(formData);
+            if (!result.success) {
+                setFormError(result.error.issues[0].message);
+                setIsSubmitting(false);
+                return;
+            }
+            const response = await fetch("/api/message", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || "Failed to send message");
+            }
+            setFormSuccess("Message sent successfully!");
+            setFormData({
+                name: "",
+                email: "",
+                message: "",
+            });
+
+            setTimeout(() => {
+                setFormSuccess(null);
+            }, 5000);
+        } catch (error) {
+            console.error("Error sending message:", error);
+            setFormError(error instanceof Error ? error.message : "An unknown error occurred");
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
 
     useEffect(() => {
         const fetchSkills = async () => {
@@ -133,41 +201,8 @@ export default function Home() {
 
     return (
         <div className="flex flex-col gap-10 min-w-screen relative">
-            {/* Background green patches - Mobile */}
-            <div className="md:hidden">
-                <GreenPatch top="-10%" left="-20%" opacity="20" width="200px" height="200px" />
-                <GreenPatch top="40%" right="-20%" opacity="20" width="200px" height="200px" />
-                <GreenPatch top="80%" left="-30%" opacity="20" width="200px" height="200px" />
-                <GreenPatch top="-20%" right="-20%" opacity="20" width="200px" height="200px" />
-                <GreenPatch top="90%" right="-40%" opacity="20" width="200px" height="200px" />
-            </div>
-
-            {/* Background green patches - Tablet */}
-            <div className="hidden md:block lg:hidden">
-                <GreenPatch top="-10%" left="-20%" opacity="20" width="250px" height="250px" />
-                <GreenPatch top="40%" right="-20%" opacity="20" width="250px" height="250px" />
-                <GreenPatch top="80%" left="-30%" opacity="20" width="250px" height="250px" />
-                <GreenPatch top="-20%" right="-20%" opacity="20" width="250px" height="250px" />
-                <GreenPatch top="90%" right="-40%" opacity="20" width="250px" height="250px" />
-                <GreenPatch top="25%" left="40%" opacity="8" width="300px" height="300px" blur="2xl" />
-                <GreenPatch top="65%" right="30%" opacity="8" width="300px" height="300px" blur="2xl" />
-            </div>
-
-            {/* Background green patches - Desktop */}
-            <div className="hidden lg:block">
-                <GreenPatch top="-10%" left="-20%" opacity="20" width="300px" height="300px" />
-                <GreenPatch top="40%" right="-20%" opacity="20" width="300px" height="300px" />
-                <GreenPatch top="80%" left="-30%" opacity="20" width="300px" height="300px" />
-                <GreenPatch top="-20%" right="-20%" opacity="20" width="300px" height="300px" />
-                <GreenPatch top="90%" right="-40%" opacity="20" width="300px" height="300px" />
-                <GreenPatch top="25%" left="40%" opacity="8" width="400px" height="400px" blur="2xl" />
-                <GreenPatch top="65%" right="30%" opacity="8" width="400px" height="400px" blur="2xl" />
-                <GreenPatch top="10%" right="20%" opacity="5" width="500px" height="500px" blur="3xl" />
-                <GreenPatch top="85%" left="20%" opacity="5" width="500px" height="500px" blur="3xl" />
-            </div>
-
             {/* Top Section */}
-            <div className="flex flex-col md:flex-row md:items-center md:justify-around p-8 md:px-16 lg:px-30 lg:mt-20">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-around p-8 md:px-16 lg:px-30 mt-10 md:mt-30 lg:mt-45">
                 {/* Top Main Text */}
                 <motion.div
                     className="flex flex-col md:w-1/2"
@@ -261,7 +296,7 @@ export default function Home() {
                     />
                     {/* Green glow effect */}
                     <motion.div
-                        className="absolute right-20 rounded-full h-60 w-60 md:h-80 md:w-80 lg:h-96 lg:w-96 bg-green-500 opacity-30 blur-3xl z-[-1]"
+                        className="absolute right-10 rounded-full h-60 w-60 md:h-80 md:w-80 lg:h-96 lg:w-96 bg-green-500 opacity-30 blur-3xl z-[-1]"
                         animate={{
                             scale: [1, 1.05, 1],
                             opacity: [0.3, 0.4, 0.3],
@@ -277,11 +312,12 @@ export default function Home() {
                 </motion.div>
             </div>
             {/* Separator Line */}
-            <div className="flex items-center justify-center w-full">
+            <div className="flex items-center justify-center w-full relative">
                 <SeparatorLine />
             </div>
             {/* About Me Section */}
             {/* Green line accent */}
+            <div id="about"></div>
             <ScrollAnimationWrapper animation="fadeInLeft" delay={0.1}>
                 <div className="h-0.5 md:h-1 w-1/2 md:w-25/100 bg-green-500 mt-10 md:mt-16"></div>
             </ScrollAnimationWrapper>
@@ -385,6 +421,9 @@ export default function Home() {
             </div>
             <SeparatorLine />
             {/* Skills */}
+            <ScrollAnimationWrapper animation="fadeInLeft" delay={0.1}>
+                <div className="h-0.5 md:h-1 w-1/2 md:w-25/100 bg-green-500 mt-10 md:mt-16"></div>
+            </ScrollAnimationWrapper>
             <div className="flex flex-col items-start justify-center">
                 <ScrollAnimationWrapper animation="fadeInUp">
                     <span className="text-4xl md:text-5xl lg:text-6xl font-bold ml-6 md:ml-16 lg:ml-24">My Skills</span>
@@ -460,7 +499,7 @@ export default function Home() {
                                         </div>
                                         {/* Skill name */}
                                         <span className="mt-4 text-sm md:text-base lg:text-lg text-center">
-                                            {skill.name}
+                                            /* Lines 463-464 omitted */
                                         </span>
                                     </motion.div>
                                 </ScrollAnimationWrapper>
@@ -472,8 +511,12 @@ export default function Home() {
 
             <SeparatorLine />
 
+            <div id="tech"></div>
             {/* Tech Stack */}
-            <div className="flex flex-col items-start justify-center">
+            <ScrollAnimationWrapper animation="fadeInLeft" delay={0.1}>
+                <div className="h-0.5 md:h-1 w-1/2 md:w-20/100 bg-green-500 mt-10 md:mt-16"></div>
+            </ScrollAnimationWrapper>
+            <div className="flex flex-col items-start justify-center relative">
                 <ScrollAnimationWrapper animation="fadeInUp">
                     <span className="text-4xl md:text-5xl lg:text-6xl font-bold ml-6 md:ml-16 lg:ml-24">Stacks</span>
                 </ScrollAnimationWrapper>
@@ -604,13 +647,17 @@ export default function Home() {
                         whileHover={{ scale: 1.05, backgroundColor: "#f8f8f8" }}
                         whileTap={{ scale: 0.98 }}
                     >
-                        View More
+                        <Link href="/projects">View More</Link>
                     </motion.div>
+                    {/* Invisible element for contact section anchor */}
                 </div>
             </div>
-
             <SeparatorLine />
             {/* Contact */}
+            <ScrollAnimationWrapper animation="fadeInLeft" delay={0.1}>
+                <div id="contact"></div>
+                <div className="h-0.5 md:h-1 w-1/2 md:w-30/100 bg-green-500 mt-10 md:mt-16"></div>
+            </ScrollAnimationWrapper>
             <div className="flex flex-col items-start justify-center">
                 <ScrollAnimationWrapper animation="fadeInUp">
                     <span className="text-4xl md:text-5xl lg:text-6xl font-bold ml-6 md:ml-16 lg:ml-24">
@@ -685,7 +732,29 @@ export default function Home() {
                             className="border-2 border-green-400/30 rounded-xl p-8 pt-10 md:p-10 md:pt-12 ml-10 bg-green-900/10 backdrop-blur-sm transition-all duration-300 hover:border-green-400/60 hover:bg-green-900/20"
                             whileHover={{ borderColor: "rgba(74, 222, 128, 0.5)" }}
                         >
-                            <form className="flex flex-col gap-4 md:gap-8 w-full">
+                            {formSuccess && (
+                                <motion.div
+                                    className="py-2 px-4 mb-4 w-full text-sm rounded-lg border border-green-400 text-white bg-green-400/20"
+                                    initial={{ opacity: 0, y: -10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.3 }}
+                                >
+                                    {formSuccess}
+                                </motion.div>
+                            )}
+
+                            {formError && (
+                                <motion.div
+                                    className="py-2 px-4 mb-4 w-full text-sm rounded-lg border border-red-400 text-white bg-red-400/20"
+                                    initial={{ opacity: 0, y: -10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.3 }}
+                                >
+                                    {formError}
+                                </motion.div>
+                            )}
+
+                            <form onSubmit={handleSubmit} className="flex flex-col gap-4 md:gap-8 w-full">
                                 <motion.label
                                     htmlFor="name"
                                     className="flex flex-col gap-2 text-lg md:text-xl w-full"
@@ -697,6 +766,9 @@ export default function Home() {
                                     <motion.input
                                         type="text"
                                         id="name"
+                                        name="name"
+                                        value={formData.name}
+                                        onChange={handleChange}
                                         placeholder="Eg. John Doe"
                                         className="focus:outline-0 outline-0 border border-green-400 rounded-xl py-2 px-4 md:py-3 md:px-5 md:text-base w-full"
                                         whileFocus={{
@@ -716,6 +788,9 @@ export default function Home() {
                                     <motion.input
                                         type="email"
                                         id="email"
+                                        name="email"
+                                        value={formData.email}
+                                        onChange={handleChange}
                                         placeholder="Eg. john@example.com"
                                         className="focus:outline-0 outline-0 border border-green-400 rounded-xl py-2 px-4 md:py-3 md:px-5 md:text-base w-full"
                                         whileFocus={{
@@ -734,6 +809,9 @@ export default function Home() {
                                     Message
                                     <motion.textarea
                                         id="message"
+                                        name="message"
+                                        value={formData.message}
+                                        onChange={handleChange}
                                         placeholder="Your message here..."
                                         className="focus:outline-0 outline-0 border border-green-400 rounded-xl py-2 px-4 md:py-3 md:px-5 md:text-base w-full min-h-[100px]"
                                         whileFocus={{
@@ -744,14 +822,15 @@ export default function Home() {
                                 </motion.label>
                                 <motion.button
                                     type="submit"
-                                    className="bg-white text-black px-5 py-2 md:py-3 md:px-8 mt-4 md:mt-6 rounded-xl md:text-lg hover:bg-gray-100 transition-colors self-start"
-                                    whileHover={{ scale: 1.05, backgroundColor: "#f8f8f8" }}
-                                    whileTap={{ scale: 0.98 }}
+                                    disabled={isSubmitting}
+                                    className="bg-white text-black px-5 py-2 md:py-3 md:px-8 mt-4 md:mt-6 rounded-xl md:text-lg hover:bg-gray-100 transition-colors self-start disabled:opacity-70 disabled:cursor-not-allowed"
+                                    whileHover={{ scale: isSubmitting ? 1 : 1.05, backgroundColor: "#f8f8f8" }}
+                                    whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: 0.7, duration: 0.5 }}
                                 >
-                                    Send
+                                    {isSubmitting ? "Sending..." : "Send"}
                                 </motion.button>
                             </form>
                         </motion.div>
