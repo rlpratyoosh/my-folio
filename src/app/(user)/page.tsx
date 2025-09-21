@@ -111,7 +111,8 @@ export default function Home() {
                 const skillData = data as Skill[];
                 setSkills(skillData);
             } catch (er) {
-                er instanceof Error ? setError(er.message) : setError("Something went wrong");
+                if (er instanceof Error) setError(er.message);
+                setError("Something went wrong while fetching skills");
             } finally {
                 setLoading(false);
             }
@@ -128,7 +129,8 @@ export default function Home() {
                 const techData = data as TechStack[];
                 setTechs(techData);
             } catch (er) {
-                er instanceof Error ? setError(er.message) : setError("Something went wrong");
+                if (er instanceof Error) setError(er.message);
+                setError("Something went wrong while fetching techs");
             } finally {
                 setLoading(false);
             }
@@ -143,9 +145,10 @@ export default function Home() {
                 const data = await res.json();
                 if (data.error) throw new Error(error);
                 const projectData = data as Project[];
-                setProjects(projectData);
+                setProjects(projectData.slice(0, 3));
             } catch (er) {
-                er instanceof Error ? setError(er.message) : setError("Something went wrong");
+                if (er instanceof Error) setError(er.message);
+                setError("Something went wrong while fetching projects");
             } finally {
                 setLoading(false);
             }
@@ -154,7 +157,7 @@ export default function Home() {
         fetchSkills();
         fetchTechs();
         fetchProjects();
-    }, []);
+    }, [error]);
 
     if (loading)
         return (
@@ -203,7 +206,7 @@ export default function Home() {
         <div className="flex flex-col gap-10 min-w-screen relative">
             <GreenPatchCollection />
             {/* Top Section */}
-            <div className="flex flex-col md:flex-row md:items-center md:justify-around p-8 md:px-16 lg:px-30 mt-10 md:mt-30 lg:mt-45">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-around p-8 md:px-16 lg:px-30 mt-10 md:mt-20 lg:mt-25">
                 {/* Top Main Text */}
                 <motion.div
                     className="flex flex-col md:w-1/2"
@@ -248,7 +251,7 @@ export default function Home() {
                         animate={{ opacity: 1 }}
                         transition={{ duration: 0.7, delay: 0.8 }}
                     >
-                        "When there is no bug there is no code..."
+                        &quot;When there is no bug there is no code...&quot;
                     </motion.p>
 
                     {/* CTA Buttons */}
@@ -259,18 +262,20 @@ export default function Home() {
                         transition={{ duration: 0.7, delay: 1 }}
                     >
                         {/* Chat button with speech bubble triangle */}
-                        <motion.button
-                            className="relative bg-white text-black font-semibold px-6 py-3 md:px-7 md:py-3.5 rounded-full shadow-lg text-sm md:text-base lg:text-lg"
-                            whileHover={{ scale: 1.05, backgroundColor: "rgba(255, 255, 255, 0.9)" }}
-                            whileTap={{ scale: 0.98 }}
-                        >
-                            Let's Chat
-                            <span
-                                className="absolute -bottom-3 left-8 w-0 h-0 
+                        <Link href={"/#contact"}>
+                            <motion.button
+                                className="relative bg-white text-black font-semibold px-6 py-3 md:px-7 md:py-3.5 rounded-full shadow-lg text-sm md:text-base lg:text-lg"
+                                whileHover={{ scale: 1.05, backgroundColor: "rgba(255, 255, 255, 0.9)" }}
+                                whileTap={{ scale: 0.98 }}
+                            >
+                                Let&apos;s Chat
+                                <span
+                                    className="absolute -bottom-3 left-8 w-0 h-0 
            border-l-[10px] border-r-[10px] border-t-[10px] border-transparent 
            border-t-white md:border-l-[12px] md:border-r-[12px] md:border-t-[12px]"
-                            ></span>
-                        </motion.button>
+                                ></span>
+                            </motion.button>
+                        </Link>
                         {/* Lootbox button with icon */}
                         <motion.button
                             className="flex items-center gap-3 text-sm md:text-base lg:text-lg border-2 border-green-300 rounded-full px-6 py-3 md:px-7 md:py-3.5"
@@ -331,9 +336,10 @@ export default function Home() {
                     {/* Bio paragraph */}
                     <ScrollAnimationWrapper animation="fadeInUp" delay={0.3}>
                         <p className="text-lg md:text-xl lg:text-2xl md:max-w-3xl lg:max-w-4xl">
-                            Hey, I'm Pratyoosh, a CS student who breaks Linux for fun, fights with DSA, and builds SaaS
-                            projects that (mostly) work. Currently diving into TypeScript, React, Next.js, Prisma, and
-                            AI/ML while surviving hostel food.
+                            Hey, I’m Pratyoosh 👋, a CS student who breaks Linux for fun, wrestles with DSA like it owes
+                            me money, and builds SaaS projects that (mostly) work. Currently juggling TypeScript,
+                            React.js, Next.js, PostgreSQL, Prisma, Express.js, and Nest.js, all while surviving hostel
+                            food (which should honestly count as a side quest).
                         </p>
                     </ScrollAnimationWrapper>
                     {/* Contact information */}
@@ -366,8 +372,9 @@ export default function Home() {
                                     Fundamentals & DSA
                                 </h3>
                                 <p className="text-base md:text-lg lg:text-xl text-white/90">
-                                    Learnt C/C++ and had love-hate battles with Data Structures and Algorithms, building
-                                    a strong foundation for advanced programming concepts.
+                                    Learnt C/C++ and had love–hate battles with Data Structures & Algorithms ⚔️. Built a
+                                    solid foundation for advanced programming, and gained the patience of a saint after
+                                    debugging segfaults at 2 AM.
                                 </p>
                             </motion.div>
                         </div>
@@ -390,8 +397,9 @@ export default function Home() {
                                     Full-Stack Development
                                 </h3>
                                 <p className="text-base md:text-lg lg:text-xl text-white/90">
-                                    Dove into the world of Full-Stack development, mastering TypeScript, React, Next.js
-                                    & Prisma to build modern web applications and complex SaaS projects.
+                                    Entered the world of Full-Stack Development 🌍. Mastered TypeScript, React, Next.js
+                                    & Prisma, building modern apps and SaaS projects, and yes, I now dream in
+                                    console.log().
                                 </p>
                             </motion.div>
                         </div>
@@ -415,7 +423,9 @@ export default function Home() {
                             >
                                 <h3 className="text-xl md:text-2xl lg:text-3xl text-gray-400 mb-3">Coming soon...</h3>
                                 <p className="text-base md:text-lg lg:text-xl text-gray-500">
-                                    Future adventures and technological explorations to be discovered...
+                                    The roadmap continues: Backend Mastery with Nest.ks, AI/ML deep dive, and maybe
+                                    fewer bugs (but no promises) 🤖. Future adventures and experiments yet to be
+                                    unlocked…
                                 </p>
                             </motion.div>
                         </div>
@@ -722,7 +732,7 @@ export default function Home() {
             <div className="flex flex-col items-start justify-center">
                 <ScrollAnimationWrapper animation="fadeInUp">
                     <span className="text-4xl md:text-5xl lg:text-6xl font-bold ml-6 md:ml-16 lg:ml-24">
-                        Let's Connect
+                        Let&apos;s Connect
                     </span>
                 </ScrollAnimationWrapper>
                 <ScrollAnimationWrapper animation="fadeInLeft" delay={0.2}>

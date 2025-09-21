@@ -3,8 +3,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { FaBlog, FaEnvelope, FaGitAlt, FaInfoCircle, FaLayerGroup, FaSun } from "react-icons/fa";
+import {  FaEnvelope, FaGitAlt, FaGithub, FaInfoCircle, FaLayerGroup } from "react-icons/fa";
 import { TbHomeFilled } from "react-icons/tb";
+import { GrConnect } from "react-icons/gr";
 
 export default function NavBar() {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -141,18 +142,21 @@ export default function NavBar() {
 
                     {/* Theme & Actions */}
                     <div className="flex items-center gap-2 lg:gap-4 mr-2 lg:mr-0">
-                        <button className="relative p-1.5 lg:p-2.5 rounded-full bg-green-500/10 hover:bg-green-500/20 transition-all duration-300 group border border-green-500/20">
-                            <FaSun className="text-sm lg:text-lg text-green-400" />
-                            <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-xs bg-black/80 text-white px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap">
-                                Toggle theme
-                            </span>
-                        </button>
                         <Link
                             href="https://linkedin.com/in/rlpratyoosh"
                             className="relative overflow-hidden px-2 lg:px-5 py-1 lg:py-2 rounded-full bg-gradient-to-r from-green-500 to-emerald-400 text-black text-xs lg:text-base font-medium hover:shadow-lg hover:shadow-green-500/20 transition-all duration-300 group"
                         >
                             <span className="relative z-10">
                                 <span className="hidden md:inline">Connect</span>
+                            </span>
+                            <span className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-all duration-300"></span>
+                        </Link>
+                        <Link
+                            href="https://github.com/rlpratyoosh"
+                            className="relative overflow-hidden px-2 lg:px-5 py-1 lg:py-2 rounded-full bg-gradient-to-r from-green-500 to-emerald-400 text-black text-xs lg:text-base font-medium hover:shadow-lg hover:shadow-green-500/20 transition-all duration-300 group"
+                        >
+                            <span className="relative z-10">
+                                <span className="hidden md:inline"><FaGithub className="text-2xl" /></span>
                             </span>
                             <span className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-all duration-300"></span>
                         </Link>
@@ -205,10 +209,27 @@ export default function NavBar() {
                         })}
                     </div>
 
-                    {/* Theme toggle */}
-                    <button className="p-2 rounded-full bg-green-500/10 hover:bg-green-500/20 transition-all duration-300 hover:text-green-400 active:scale-95 text-green-400">
-                        <FaSun />
-                    </button>
+                    <div className="flex gap-2 items-center justify-center">
+                        <Link
+                        href="https://linkedin.com/in/rlpratyoosh"
+                        className="relative overflow-hidden px-2 lg:px-5 py-1 lg:py-2 rounded-full bg-gradient-to-r from-green-500 to-emerald-400 text-black text-xs lg:text-base font-medium hover:shadow-lg hover:shadow-green-500/20 transition-all duration-300 group"
+                    >
+                        <span className="relative z-10">
+                           <GrConnect />
+                        </span>
+                        <span className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-all duration-300"></span>
+                    </Link>
+
+                    <Link
+                        href="https://github.com/rlpratyoosh"
+                        className="relative overflow-hidden px-2 lg:px-5 py-1 lg:py-2 rounded-full bg-gradient-to-r from-green-500 to-emerald-400 text-black text-xs lg:text-base font-medium hover:shadow-lg hover:shadow-green-500/20 transition-all duration-300 group"
+                    >
+                        <span className="relative z-10">
+                           <FaGithub />
+                        </span>
+                        <span className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-all duration-300"></span>
+                    </Link>
+                    </div>
                 </div>
             </div>
         </>

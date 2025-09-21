@@ -40,14 +40,15 @@ export default function ProjectsPage() {
                 const projectData = data as Project[];
                 setProjects(projectData);
             } catch (er) {
-                er instanceof Error ? setError(er.message) : setError("Something went wrong");
+                if (er instanceof Error) setError(er.message);
+                setError("Something went wrong while fetching skills");
             } finally {
                 setLoading(false);
             }
         };
 
         fetchProjects();
-    }, []);
+    }, [error]);
 
     if (loading)
         return (

@@ -12,7 +12,6 @@ interface GreenPatchProps {
     color?: string;
     animationType?: "pulse" | "shift" | "breathe" | "rotate" | "float" | "none";
     animationDuration?: number;
-    floatDistance?: number;
 }
 
 export default function GreenPatch({
@@ -27,7 +26,6 @@ export default function GreenPatch({
     color = "green-500",
     animationType = "float",
     animationDuration = 30,
-    floatDistance = 50,
 }: GreenPatchProps) {
     const blurClass =
         blur === "sm"

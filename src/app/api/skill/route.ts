@@ -3,7 +3,7 @@ import { db } from "@/lib/prisma-db";
 import { skillSchema } from "@/lib/zod";
 import { NextResponse } from "next/server";
 
-export async function GET(req: Request) {
+export async function GET() {
     try {
         const skillData = await db.skill.findAll();
         return NextResponse.json(skillData, { status: 200 });

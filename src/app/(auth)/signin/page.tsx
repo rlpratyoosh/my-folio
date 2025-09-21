@@ -11,7 +11,7 @@ import { useSession } from "next-auth/react";
 
 type FormData = z.infer<typeof signInSchema>;
 
-export default function signInPage() {
+export default function SignInPage() {
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
@@ -39,6 +39,7 @@ export default function signInPage() {
                 setSuccess(true);
             }
         } catch (er) {
+            console.log(er);
             setError("Something went wrong");
         } finally {
             setLoading(false);
