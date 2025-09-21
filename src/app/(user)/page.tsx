@@ -4,7 +4,9 @@ import ScrollAnimationWrapper from "@/components/ScrollAnimationWrapper";
 import SeparatorLine from "@/components/SeparatorLine";
 import { Project as PrismaProject, ProjectTag, ProjectTechStack, Skill, Tag, TechStack } from "@/generated/prisma";
 import { motion } from "framer-motion";
+import Link from "next/link";
 import { useEffect, useState } from "react";
+import { FaYoutube } from "react-icons/fa";
 import { FiGithub } from "react-icons/fi";
 import { IoLogoInstagram, IoLogoLinkedin, IoMdMail, IoMdOpen } from "react-icons/io";
 import { PiTreasureChestFill } from "react-icons/pi";
@@ -320,10 +322,7 @@ export default function Home() {
                             {/* Connector dot */}
                             <div className="absolute top-12 -left-2 w-4 h-4 rounded-full bg-green-400 z-20 shadow-lg shadow-green-500/30"></div>
                             {/* Content box */}
-                            <motion.div
-                                className="border-2 border-green-400/30 rounded-xl p-8 pt-10 md:p-10 md:pt-12 ml-10 bg-green-900/10 backdrop-blur-sm transition-all duration-300 hover:border-green-400/60 hover:bg-green-900/20 group-hover:shadow-lg group-hover:shadow-green-900/20"
-                                whileHover={{ scale: 1.02, transition: { duration: 0.3 } }}
-                            >
+                            <motion.div className="border-2 border-green-400/30 rounded-xl p-8 pt-10 md:p-10 md:pt-12 ml-10 bg-green-900/10 backdrop-blur-sm transition-all duration-300 hover:border-green-400/60 hover:bg-green-900/20 group-hover:shadow-lg group-hover:shadow-green-900/20">
                                 <h3 className="text-xl md:text-2xl lg:text-3xl text-green-400 mb-3">
                                     Fundamentals & DSA
                                 </h3>
@@ -347,10 +346,7 @@ export default function Home() {
                             {/* Connector dot */}
                             <div className="absolute top-12 -left-2 w-4 h-4 rounded-full bg-green-400 z-20 shadow-lg shadow-green-500/30"></div>
                             {/* Content box */}
-                            <motion.div
-                                className="border-2 border-green-400/30 rounded-xl p-8 pt-10 md:p-10 md:pt-12 ml-10 bg-green-900/10 backdrop-blur-sm transition-all duration-300 hover:border-green-400/60 hover:bg-green-900/20 group-hover:shadow-lg group-hover:shadow-green-900/20"
-                                whileHover={{ scale: 1.02, transition: { duration: 0.3 } }}
-                            >
+                            <motion.div className="border-2 border-green-400/30 rounded-xl p-8 pt-10 md:p-10 md:pt-12 ml-10 bg-green-900/10 backdrop-blur-sm transition-all duration-300 hover:border-green-400/60 hover:bg-green-900/20 group-hover:shadow-lg group-hover:shadow-green-900/20">
                                 <h3 className="text-xl md:text-2xl lg:text-3xl text-green-400 mb-3">
                                     Full-Stack Development
                                 </h3>
@@ -376,7 +372,7 @@ export default function Home() {
                             {/* Content box */}
                             <motion.div
                                 className="border-2 border-gray-700 rounded-xl p-8 pt-10 md:p-10 md:pt-12 ml-10 bg-gray-900/10 backdrop-blur-sm"
-                                whileHover={{ scale: 1.02, opacity: 1, transition: { duration: 0.3 } }}
+                                whileHover={{ opacity: 1, transition: { duration: 0.1 } }}
                             >
                                 <h3 className="text-xl md:text-2xl lg:text-3xl text-gray-400 mb-3">Coming soon...</h3>
                                 <p className="text-base md:text-lg lg:text-xl text-gray-500">
@@ -422,7 +418,7 @@ export default function Home() {
                                         whileHover={{ scale: 1.1, transition: { duration: 0.2 } }}
                                     >
                                         {/* Circular progress */}
-                                        <div className="relative w-24 h-24 md:w-32 md:h-32 flex items-center justify-center">
+                                        <div className="relative w-24 h-24 flex items-center justify-center">
                                             {/* Background circle */}
                                             <svg className="w-full h-full -rotate-90">
                                                 <circle
@@ -500,7 +496,6 @@ export default function Home() {
                                         boxShadow:
                                             "0 10px 25px -5px rgba(0, 200, 83, 0.1), 0 8px 10px -6px rgba(0, 200, 83, 0.1)",
                                     }}
-                                    whileTap={{ scale: 0.98 }}
                                 >
                                     <motion.div
                                         className="w-14 h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 flex items-center justify-center bg-green-500/10 rounded-xl"
@@ -567,20 +562,37 @@ export default function Home() {
                                     </p>
                                 </div>
                                 <div className="flex items-start justify-center gap-3 py-5 md:py-6 px-4 md:px-6">
-                                    <motion.div
-                                        className="bg-white text-black rounded-xl py-1 px-3 md:py-2 md:px-4 text-base md:text-lg flex items-center justify-center gap-2"
-                                        whileHover={{ scale: 1.05, backgroundColor: "#f8f8f8" }}
-                                        whileTap={{ scale: 0.98 }}
-                                    >
-                                        <FiGithub /> Repo
-                                    </motion.div>
-                                    <motion.div
-                                        className="border-2 border-green-400 text-white rounded-2xl py-1 px-3 md:py-2 md:px-4 text-base md:text-lg flex items-center justify-center gap-3"
-                                        whileHover={{ scale: 1.05, borderColor: "rgb(74, 222, 128)" }}
-                                        whileTap={{ scale: 0.98 }}
-                                    >
-                                        <IoMdOpen /> Live
-                                    </motion.div>
+                                    <Link href={project.gitLink}>
+                                        <motion.div
+                                            className="bg-white text-black rounded-xl py-1 px-3 md:py-2 md:px-4 text-base md:text-lg flex items-center justify-center gap-2"
+                                            whileHover={{ scale: 1.05, backgroundColor: "#f8f8f8" }}
+                                            whileTap={{ scale: 0.98 }}
+                                        >
+                                            <FiGithub /> Repo
+                                        </motion.div>
+                                    </Link>
+                                    {project.projectLink && (
+                                        <Link href={project.projectLink}>
+                                            <motion.div
+                                                className="border-2 border-green-400 text-white rounded-2xl py-1 px-3 md:py-2 md:px-4 text-base md:text-lg flex items-center justify-center gap-3"
+                                                whileHover={{ scale: 1.05, borderColor: "rgb(74, 222, 128)" }}
+                                                whileTap={{ scale: 0.98 }}
+                                            >
+                                                <IoMdOpen /> Live
+                                            </motion.div>
+                                        </Link>
+                                    )}
+                                    {project.ytLink && (
+                                        <Link href={project.ytLink}>
+                                            <motion.div
+                                                className="border-2 border-green-400 text-white rounded-2xl py-1 px-3 md:py-2 md:px-4 text-base md:text-lg flex items-center justify-center gap-3"
+                                                whileHover={{ scale: 1.05, borderColor: "rgb(74, 222, 128)" }}
+                                                whileTap={{ scale: 0.98 }}
+                                            >
+                                                <FaYoutube /> Video
+                                            </motion.div>
+                                        </Link>
+                                    )}
                                 </div>
                             </motion.div>
                         </ScrollAnimationWrapper>
@@ -659,16 +671,16 @@ export default function Home() {
 
                     {/* Form on the right with Message title overlay */}
                     <ScrollAnimationWrapper animation="fadeInRight" delay={0.3} className="w-full md:w-3/5 relative">
-                        {/* Message title that overlaps the border - similar to timeline year styling */}
+                        {/* Message title that overlaps the border */}
                         <div className="absolute -top-5 left-6 z-10">
                             <span className="border-2 border-green-400 bg-black px-4 py-1 md:px-6 md:py-2 rounded-full text-green-400 md:text-lg lg:text-xl font-medium">
                                 Message
                             </span>
                         </div>
-                        {/* Connector dot - like timeline */}
+                        {/* Connector dot */}
                         <div className="absolute top-12 -left-2 w-4 h-4 rounded-full bg-green-400 z-20 shadow-lg shadow-green-500/30"></div>
 
-                        {/* Form container with styling similar to timeline boxes */}
+                        {/* Form container */}
                         <motion.div
                             className="border-2 border-green-400/30 rounded-xl p-8 pt-10 md:p-10 md:pt-12 ml-10 bg-green-900/10 backdrop-blur-sm transition-all duration-300 hover:border-green-400/60 hover:bg-green-900/20"
                             whileHover={{ borderColor: "rgba(74, 222, 128, 0.5)" }}

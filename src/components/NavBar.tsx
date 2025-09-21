@@ -75,18 +75,19 @@ export default function NavBar() {
             <div
                 className={`fixed top-0 left-0 w-full hidden md:flex items-center justify-center z-50 transition-all duration-500 ease-in-out ${
                     isScrolled
-                        ? "bg-black/30 backdrop-blur-md shadow-lg py-4 px-6 "
-                        : "py-6 px-6"
+                        ? "bg-black/30 backdrop-blur-md shadow-lg py-2 lg:py-4 px-3 lg:px-6"
+                        : "py-3 lg:py-6 px-3 lg:px-6"
                 }`}
             >
-                <div className="w-11/12 lg:w-10/12 flex items-center justify-between">
+                <div className="w-full lg:w-full flex items-center justify-between">
                     {/* Logo/Brand section */}
-                    <div className="flex items-center">
+                    <div className="flex items-center ml-2 lg:ml-0">
                         <div className="relative">
                             <div className="absolute -inset-1 bg-gradient-to-r from-green-600 to-green-400 rounded-full blur-md opacity-50"></div>
-                            <div className="relative bg-black px-4 py-2 rounded-full border border-green-500/40">
-                                <span className="font-bold text-xl bg-gradient-to-r from-green-400 to-emerald-300 bg-clip-text text-transparent">
-                                    Pratyoosh
+                            <div className="relative bg-black px-2 lg:px-4 py-1 lg:py-2 rounded-full border border-green-500/40">
+                                <span className="font-bold text-sm md:text-base lg:text-xl bg-gradient-to-r from-green-400 to-emerald-300 bg-clip-text text-transparent">
+                                    <span className="hidden lg:inline">Pratyoosh</span>
+                                    <span className="inline lg:hidden">P</span>
                                 </span>
                             </div>
                         </div>
@@ -95,7 +96,7 @@ export default function NavBar() {
                     {/* Navigation Links */}
                     <div className="flex items-center">
                         <div
-                            className={`flex items-center gap-1 p-1 ${
+                            className={`flex items-center gap-0.5 lg:gap-1 p-0.5 lg:p-1 ${
                                 isScrolled ? "bg-black/40" : "bg-black/20"
                             } backdrop-blur-md rounded-full transition-all duration-300 border border-white/10`}
                         >
@@ -103,13 +104,13 @@ export default function NavBar() {
                                 <Link
                                     key={page.name}
                                     href={page.link}
-                                    className={`relative px-5 py-2 text-sm lg:text-base transition-all duration-300 rounded-full hover:bg-green-500/20 group ${
+                                    className={`relative px-1.5 lg:px-4 py-1 lg:py-2 text-xs lg:text-base transition-all duration-300 rounded-full hover:bg-green-500/20 group ${
                                         index === 0 ? "bg-green-500/20 text-green-400" : ""
                                     }`}
                                 >
-                                    <div className="flex items-center gap-2">
-                                        <span className="text-green-400">{page.icon}</span>
-                                        <span className="relative z-10 group-hover:text-green-400 transition-colors">
+                                    <div className="flex items-center gap-1 lg:gap-2">
+                                        <span className="text-green-400 text-xs lg:text-lg">{page.icon}</span>
+                                        <span className="hidden lg:inline relative z-10 group-hover:text-green-400 transition-colors">
                                             {page.name}
                                         </span>
                                     </div>
@@ -120,18 +121,21 @@ export default function NavBar() {
                     </div>
 
                     {/* Theme & Actions */}
-                    <div className="flex items-center gap-4">
-                        <button className="relative p-2.5 rounded-full bg-green-500/10 hover:bg-green-500/20 transition-all duration-300 group border border-green-500/20">
-                            <FaSun className="text-lg text-green-400" />
+                    <div className="flex items-center gap-2 lg:gap-4 mr-2 lg:mr-0">
+                        <button className="relative p-1.5 lg:p-2.5 rounded-full bg-green-500/10 hover:bg-green-500/20 transition-all duration-300 group border border-green-500/20">
+                            <FaSun className="text-sm lg:text-lg text-green-400" />
                             <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-xs bg-black/80 text-white px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap">
                                 Toggle theme
                             </span>
                         </button>
                         <Link
                             href="/#contact"
-                            className="relative overflow-hidden px-5 py-2 rounded-full bg-gradient-to-r from-green-500 to-emerald-400 text-black font-medium hover:shadow-lg hover:shadow-green-500/20 transition-all duration-300 group"
+                            className="relative overflow-hidden px-2 lg:px-5 py-1 lg:py-2 rounded-full bg-gradient-to-r from-green-500 to-emerald-400 text-black text-xs lg:text-base font-medium hover:shadow-lg hover:shadow-green-500/20 transition-all duration-300 group"
                         >
-                            <span className="relative z-10">Get in Touch</span>
+                            <span className="relative z-10">
+                                <span className="hidden lg:inline">Get in Touch</span>
+                                <span className="inline lg:hidden">Contact</span>
+                            </span>
                             <span className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-all duration-300"></span>
                         </Link>
                     </div>
@@ -139,29 +143,43 @@ export default function NavBar() {
             </div>
 
             {/* Mobile Navigation */}
-            <div
-                className={`fixed left-1/2 transform -translate-x-1/2 flex md:hidden items-center justify-between text-xl z-50 transition-all duration-500 ease-in-out ${
-                    isScrolled
-                        ? "top-4 w-90/100 rounded-full backdrop-blur-md bg-black/40 shadow-lg border border-green-500/20 px-6 py-3"
-                        : "top-6 w-full px-6 py-3"
-                }`}
-            >
-                <div className="flex items-center gap-6">
-                    {mobilePages.map(page => (
-                        <Link
-                            key={page.name}
-                            href={page.link}
-                            className="relative p-2 transition-all duration-200 hover:text-green-400 active:scale-95 group"
-                        >
-                            <span className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 text-[10px] opacity-0 group-hover:opacity-100 transition-all duration-300">
-                                {page.name}
-                            </span>
-                            {page.icon}
-                        </Link>
-                    ))}
-                </div>
-                <div>
-                    <button className="p-2 rounded-full bg-green-500/10 hover:bg-green-500/20 transition-all duration-300 hover:text-green-400 active:scale-95">
+            <div className="fixed top-0 left-0 w-full md:hidden z-50 px-4">
+                <div
+                    className={`mx-auto flex items-center justify-between transition-all duration-500 ease-in-out ${
+                        isScrolled
+                            ? "mt-4 rounded-full backdrop-blur-md bg-black/40 shadow-lg border border-green-500/20 py-3 px-5"
+                            : "mt-6 py-3 px-5"
+                    }`}
+                >
+                    {/* Logo for Mobile */}
+                    <div className="flex items-center">
+                        <div className="relative">
+                            <div className="relative px-2 py-1 rounded-full">
+                                <span className="font-bold text-base bg-gradient-to-r from-green-400 to-emerald-300 bg-clip-text text-transparent">
+                                    P
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Navigation Icons */}
+                    <div className="flex items-center gap-5">
+                        {mobilePages.map(page => (
+                            <Link
+                                key={page.name}
+                                href={page.link}
+                                className="relative p-2 transition-all duration-200 hover:text-green-400 active:scale-95 group"
+                            >
+                                <span className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 text-[10px] opacity-0 group-hover:opacity-100 transition-all duration-300">
+                                    {page.name}
+                                </span>
+                                {page.icon}
+                            </Link>
+                        ))}
+                    </div>
+
+                    {/* Theme toggle */}
+                    <button className="p-2 rounded-full bg-green-500/10 hover:bg-green-500/20 transition-all duration-300 hover:text-green-400 active:scale-95 text-green-400">
                         <FaSun />
                     </button>
                 </div>
