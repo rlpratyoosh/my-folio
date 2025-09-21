@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     },
     openGraph: {
         type: "website",
-        url: "https://my-folio-khaki-six.vercel.app/",
+        url: "https://www.pratyoosh.me/",
         title: "Pratyoosh - A fullstack bugger",
         description: "I bug more than you can imagine.",
         siteName: "Pratyoosh Portfolio",

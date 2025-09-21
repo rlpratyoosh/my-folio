@@ -4,21 +4,32 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaEnvelope, FaGitAlt, FaGithub, FaInfoCircle, FaLayerGroup } from "react-icons/fa";
-import { TbHomeFilled } from "react-icons/tb";
 import { GrConnect } from "react-icons/gr";
+import { TbHomeFilled } from "react-icons/tb";
 
 export default function NavBar() {
     const [isScrolled, setIsScrolled] = useState(false);
+    const [hash, setHash] = useState("");
     const pathname = usePathname();
 
     useEffect(() => {
+        const updateHash = () => {
+            setHash(window.location.hash);
+        };
         const handleScroll = () => {
+            updateHash();
             const scrollTop = window.scrollY;
-            setIsScrolled(scrollTop > 50); //  50px scroll
+            setIsScrolled(scrollTop > 50); 
         };
 
+        updateHash();
+        window.addEventListener("hashchange", updateHash);
         window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
+
+        return () => {
+            window.removeEventListener("hashchange", updateHash);
+            window.removeEventListener("scroll", handleScroll);
+        };
     }, []);
 
     const pages = [
@@ -102,8 +113,8 @@ export default function NavBar() {
                                 // Check if current path matches the page link
                                 const isActive =
                                     (page.link === "/" && pathname === "/") ||
-                                    (page.link !== "/" && pathname.startsWith(page.link)) ||
-                                    (page.link.startsWith("/#") && pathname === "/" && page.link.includes(pathname));
+                                    (page.link !== "/" && pathname === page.link) ||
+                                    (page.link.startsWith("/#") && pathname === "/" && hash !== "" && page.link.includes(hash));
 
                                 return (
                                     <Link
