@@ -5,6 +5,9 @@ import { SessionProvider } from "next-auth/react";
 export const metadata: Metadata = {
   title: "Pratyoosh - A fullstack bugger",
   description: "I bug more than you can imagine.",
+  icons: {
+    icon: "/favicon.png",
+  },
 };
 
 export default function RootLayout({

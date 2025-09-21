@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import {  FaEnvelope, FaGitAlt, FaGithub, FaInfoCircle, FaLayerGroup } from "react-icons/fa";
+import { FaEnvelope, FaGitAlt, FaGithub, FaInfoCircle, FaLayerGroup } from "react-icons/fa";
 import { TbHomeFilled } from "react-icons/tb";
 import { GrConnect } from "react-icons/gr";
 
@@ -156,7 +156,9 @@ export default function NavBar() {
                             className="relative overflow-hidden px-2 lg:px-5 py-1 lg:py-2 rounded-full bg-gradient-to-r from-green-500 to-emerald-400 text-black text-xs lg:text-base font-medium hover:shadow-lg hover:shadow-green-500/20 transition-all duration-300 group"
                         >
                             <span className="relative z-10">
-                                <span className="hidden md:inline"><FaGithub className="text-2xl" /></span>
+                                <span className="hidden md:inline">
+                                    <FaGithub className="text-2xl" />
+                                </span>
                             </span>
                             <span className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-all duration-300"></span>
                         </Link>
@@ -165,13 +167,11 @@ export default function NavBar() {
             </div>
 
             {/* Mobile Navigation */}
-            <div className="fixed top-0 left-0 w-full md:hidden z-50 px-4">
+            <div className="absolute top-5 left-0 w-full md:hidden z-50 px-4">
                 <div
-                    className={`mx-auto flex items-center justify-between transition-all duration-500 ease-in-out ${
-                        isScrolled
-                            ? "mt-4 rounded-full backdrop-blur-md bg-black/40 shadow-lg border border-green-500/20 py-3 px-5"
-                            : "mt-6 py-3 px-5"
-                    }`}
+                    className={`mx-auto flex items-center justify-between transition-all duration-500 ease-in-out 
+                         mt-4 rounded-full backdrop-blur-md bg-black/40 shadow-lg border border-green-500/20 py-3 px-5
+                    `}
                 >
                     {/* Logo for Mobile */}
                     <div className="flex items-center">
@@ -211,24 +211,24 @@ export default function NavBar() {
 
                     <div className="flex gap-2 items-center justify-center">
                         <Link
-                        href="https://linkedin.com/in/rlpratyoosh"
-                        className="relative overflow-hidden px-2 lg:px-5 py-1 lg:py-2 rounded-full bg-gradient-to-r from-green-500 to-emerald-400 text-black text-xs lg:text-base font-medium hover:shadow-lg hover:shadow-green-500/20 transition-all duration-300 group"
-                    >
-                        <span className="relative z-10">
-                           <GrConnect />
-                        </span>
-                        <span className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-all duration-300"></span>
-                    </Link>
+                            href="https://linkedin.com/in/rlpratyoosh"
+                            className="relative overflow-hidden px-2 lg:px-5 py-1 lg:py-2 rounded-full bg-gradient-to-r from-green-500 to-emerald-400 text-black text-xs lg:text-base font-medium hover:shadow-lg hover:shadow-green-500/20 transition-all duration-300 group"
+                        >
+                            <span className="relative z-10">
+                                <GrConnect />
+                            </span>
+                            <span className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-all duration-300"></span>
+                        </Link>
 
-                    <Link
-                        href="https://github.com/rlpratyoosh"
-                        className="relative overflow-hidden px-2 lg:px-5 py-1 lg:py-2 rounded-full bg-gradient-to-r from-green-500 to-emerald-400 text-black text-xs lg:text-base font-medium hover:shadow-lg hover:shadow-green-500/20 transition-all duration-300 group"
-                    >
-                        <span className="relative z-10">
-                           <FaGithub />
-                        </span>
-                        <span className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-all duration-300"></span>
-                    </Link>
+                        <Link
+                            href="https://github.com/rlpratyoosh"
+                            className="relative overflow-hidden px-2 lg:px-5 py-1 lg:py-2 rounded-full bg-gradient-to-r from-green-500 to-emerald-400 text-black text-xs lg:text-base font-medium hover:shadow-lg hover:shadow-green-500/20 transition-all duration-300 group"
+                        >
+                            <span className="relative z-10">
+                                <FaGithub />
+                            </span>
+                            <span className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-all duration-300"></span>
+                        </Link>
                     </div>
                 </div>
             </div>
