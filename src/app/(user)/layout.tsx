@@ -1,3 +1,4 @@
+import GreenPatchCollection from "@/components/GreenPatchCollect";
 import NavBar from "@/components/NavBar";
 
 export default function UserLayout({

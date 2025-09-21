@@ -1,5 +1,5 @@
 "use client";
-import GreenPatch from "@/components/GreenPatch";
+import GreenPatchCollection from "@/components/GreenPatchCollect";
 import ScrollAnimationWrapper from "@/components/ScrollAnimationWrapper";
 import SeparatorLine from "@/components/SeparatorLine";
 import { Project as PrismaProject, ProjectTag, ProjectTechStack, Skill, Tag, TechStack } from "@/generated/prisma";
@@ -201,6 +201,7 @@ export default function Home() {
 
     return (
         <div className="flex flex-col gap-10 min-w-screen relative">
+            <GreenPatchCollection />
             {/* Top Section */}
             <div className="flex flex-col md:flex-row md:items-center md:justify-around p-8 md:px-16 lg:px-30 mt-10 md:mt-30 lg:mt-45">
                 {/* Top Main Text */}
@@ -321,29 +322,31 @@ export default function Home() {
             <ScrollAnimationWrapper animation="fadeInLeft" delay={0.1}>
                 <div className="h-0.5 md:h-1 w-1/2 md:w-25/100 bg-green-500 mt-10 md:mt-16"></div>
             </ScrollAnimationWrapper>
-            <div className="flex flex-col gap-4 md:gap-6 items-start justify-center p-5 pr-9 md:px-16 lg:px-24">
-                {/* Section title */}
-                <ScrollAnimationWrapper animation="fadeInUp" delay={0.2}>
-                    <span className="text-4xl md:text-5xl lg:text-6xl font-bold">About Me</span>
-                </ScrollAnimationWrapper>
-                {/* Bio paragraph */}
-                <ScrollAnimationWrapper animation="fadeInUp" delay={0.3}>
-                    <p className="text-lg md:text-xl lg:text-2xl md:max-w-3xl lg:max-w-4xl">
-                        Hey, I'm Pratyoosh, a CS student who breaks Linux for fun, fights with DSA, and builds SaaS
-                        projects that (mostly) work. Currently diving into TypeScript, React, Next.js, Prisma, and AI/ML
-                        while surviving hostel food.
-                    </p>
-                </ScrollAnimationWrapper>
-                {/* Contact information */}
-                <ScrollAnimationWrapper animation="fadeInUp" delay={0.4}>
-                    <div className="flex items-center justify-center gap-3 mt-2 md:mt-4">
-                        <div className="w-0.5 md:w-1 h-10 md:h-14 bg-green-500"></div>
-                        <IoMdMail className="text-lg md:text-xl mt-0.5" />
-                        <div className="text-xs md:text-sm lg:text-base text-gray-500">
-                            pratyoosh.prakash.dev@gmail.com
+            <div className="flex flex-col lg:flex-row gap-4 md:gap-6 items-start justify-center p-5 pr-9 md:px-16 lg:px-24">
+                <div className="flex flex-col items-start justify-center gap-5 w-full">
+                    {/* Section title */}
+                    <ScrollAnimationWrapper animation="fadeInUp" delay={0.2}>
+                        <span className="text-4xl md:text-5xl lg:text-6xl font-bold">About Me</span>
+                    </ScrollAnimationWrapper>
+                    {/* Bio paragraph */}
+                    <ScrollAnimationWrapper animation="fadeInUp" delay={0.3}>
+                        <p className="text-lg md:text-xl lg:text-2xl md:max-w-3xl lg:max-w-4xl">
+                            Hey, I'm Pratyoosh, a CS student who breaks Linux for fun, fights with DSA, and builds SaaS
+                            projects that (mostly) work. Currently diving into TypeScript, React, Next.js, Prisma, and
+                            AI/ML while surviving hostel food.
+                        </p>
+                    </ScrollAnimationWrapper>
+                    {/* Contact information */}
+                    <ScrollAnimationWrapper animation="fadeInUp" delay={0.4}>
+                        <div className="flex items-center justify-center gap-3 mt-2 md:mt-4">
+                            <div className="w-0.5 md:w-1 h-10 md:h-14 bg-green-500"></div>
+                            <IoMdMail className="text-lg md:text-xl mt-0.5" />
+                            <div className="text-xs md:text-sm lg:text-base text-gray-500">
+                                pratyoosh.prakash.dev@gmail.com
+                            </div>
                         </div>
-                    </div>
-                </ScrollAnimationWrapper>
+                    </ScrollAnimationWrapper>
+                </div>
                 {/* Timeline Section */}
                 <div className="flex flex-col items-start gap-14 md:gap-20 w-full mt-10 md:mt-16 ml-6 md:ml-12 lg:ml-20 relative">
                     {/* Timeline box - 2024 */}
@@ -499,7 +502,7 @@ export default function Home() {
                                         </div>
                                         {/* Skill name */}
                                         <span className="mt-4 text-sm md:text-base lg:text-lg text-center">
-                                            /* Lines 463-464 omitted */
+                                            {skill.name}
                                         </span>
                                     </motion.div>
                                 </ScrollAnimationWrapper>
@@ -562,6 +565,9 @@ export default function Home() {
 
             <SeparatorLine />
             {/* Projects */}
+            <ScrollAnimationWrapper animation="fadeInLeft" delay={0.1}>
+                <div className="h-0.5 md:h-1 w-1/2 md:w-25/100 bg-green-500 mt-10 md:mt-16"></div>
+            </ScrollAnimationWrapper>
             <div className="flex flex-col items-start justify-center">
                 <ScrollAnimationWrapper animation="fadeInUp">
                     <span className="text-4xl md:text-5xl lg:text-6xl font-bold ml-6 md:ml-16 lg:ml-24">Projects</span>
@@ -578,7 +584,7 @@ export default function Home() {
                             threshold={0.1}
                         >
                             <motion.div
-                                className="flex flex-col items-start justify-center border border-green-950/20 rounded-xl bg-green-950/20 backdrop-blur-md shadow-xl transition-all duration-300"
+                                className="flex flex-col items-start justify-center border border-green-950/20 rounded-xl bg-green-950/20 backdrop-blur-md shadow-xl transition-all duration-300 h-full"
                                 whileHover={{
                                     y: -8,
                                     boxShadow:
@@ -589,7 +595,7 @@ export default function Home() {
                                 <div className="relative w-full overflow-hidden rounded-t-xl">
                                     <motion.img
                                         src={project.thumbnailUrl}
-                                        alt={""}
+                                        alt={project.name}
                                         width={400}
                                         height={200}
                                         className="w-full h-48 md:h-56 lg:h-64 object-cover"
@@ -598,16 +604,61 @@ export default function Home() {
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-green-900/70 to-transparent"></div>
                                 </div>
-                                <div className="flex flex-col items-start justify-center gap-2 px-5 pt-3 md:pt-5 md:px-6">
+                                <div className="flex flex-col items-start justify-center gap-2 px-5 pt-3 md:pt-5 md:px-6 flex-grow">
                                     <span className="text-xl md:text-2xl lg:text-3xl">{project.name}</span>
                                     <p className="text-xs md:text-sm lg:text-base text-white/80">
                                         {project.description}
                                     </p>
+
+                                    {/* Tech Stack */}
+                                    {project.techs && project.techs.length > 0 && (
+                                        <div className="flex flex-wrap gap-2 mt-2">
+                                            {project.techs.map(tech => (
+                                                <div
+                                                    key={tech.id}
+                                                    className="bg-green-900/30 px-2 py-1 rounded-md text-xs flex items-center gap-1"
+                                                >
+                                                    {tech.tech.iconUrl && (
+                                                        <img
+                                                            src={tech.tech.iconUrl}
+                                                            alt={tech.tech.name}
+                                                            className="w-3 h-3 object-contain"
+                                                        />
+                                                    )}
+                                                    {tech.tech.name}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+
+                                    {/* Tags */}
+                                    {project.tags && project.tags.length > 0 && (
+                                        <div className="flex flex-wrap gap-2 mt-1">
+                                            {project.tags.map(tag => (
+                                                <span
+                                                    key={tag.id}
+                                                    className="bg-blue-900/30 px-2 py-0.5 rounded-full text-xs"
+                                                >
+                                                    {tag.tag.name}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    )}
+
+                                    {/* Built At */}
+                                    {project.builtAt && (
+                                        <div className="text-xs text-gray-400 mt-2">{project.builtAt}</div>
+                                    )}
                                 </div>
-                                <div className="flex items-start justify-center gap-3 py-5 md:py-6 px-4 md:px-6">
-                                    <Link href={project.gitLink}>
+                                <div className="flex items-start justify-center gap-3 py-5 md:py-6 px-4 md:px-6 w-full mt-auto">
+                                    <Link
+                                        href={project.gitLink}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex-1"
+                                    >
                                         <motion.div
-                                            className="bg-white text-black rounded-xl py-1 px-3 md:py-2 md:px-4 text-base md:text-lg flex items-center justify-center gap-2"
+                                            className="bg-white text-black rounded-xl py-1 px-3 md:py-2 md:px-4 text-base md:text-lg flex items-center justify-center gap-2 w-full"
                                             whileHover={{ scale: 1.05, backgroundColor: "#f8f8f8" }}
                                             whileTap={{ scale: 0.98 }}
                                         >
@@ -615,9 +666,14 @@ export default function Home() {
                                         </motion.div>
                                     </Link>
                                     {project.projectLink && (
-                                        <Link href={project.projectLink}>
+                                        <Link
+                                            href={project.projectLink}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="flex-1"
+                                        >
                                             <motion.div
-                                                className="border-2 border-green-400 text-white rounded-2xl py-1 px-3 md:py-2 md:px-4 text-base md:text-lg flex items-center justify-center gap-3"
+                                                className="border-2 border-green-400 text-white rounded-2xl py-1 px-3 md:py-2 md:px-4 text-base md:text-lg flex items-center justify-center gap-3 w-full"
                                                 whileHover={{ scale: 1.05, borderColor: "rgb(74, 222, 128)" }}
                                                 whileTap={{ scale: 0.98 }}
                                             >
@@ -626,9 +682,14 @@ export default function Home() {
                                         </Link>
                                     )}
                                     {project.ytLink && (
-                                        <Link href={project.ytLink}>
+                                        <Link
+                                            href={project.ytLink}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="flex-1"
+                                        >
                                             <motion.div
-                                                className="border-2 border-green-400 text-white rounded-2xl py-1 px-3 md:py-2 md:px-4 text-base md:text-lg flex items-center justify-center gap-3"
+                                                className="border-2 border-green-400 text-white rounded-2xl py-1 px-3 md:py-2 md:px-4 text-base md:text-lg flex items-center justify-center gap-3 w-full"
                                                 whileHover={{ scale: 1.05, borderColor: "rgb(74, 222, 128)" }}
                                                 whileTap={{ scale: 0.98 }}
                                             >

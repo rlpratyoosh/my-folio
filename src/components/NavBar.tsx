@@ -1,12 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaBlog, FaEnvelope, FaGitAlt, FaInfoCircle, FaLayerGroup, FaSun } from "react-icons/fa";
 import { TbHomeFilled } from "react-icons/tb";
 
 export default function NavBar() {
     const [isScrolled, setIsScrolled] = useState(false);
+    const pathname = usePathname();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -40,11 +42,6 @@ export default function NavBar() {
             icon: <FaLayerGroup className="text-lg" />,
         },
         {
-            name: "Blog",
-            link: "/blogs",
-            icon: <FaBlog className="text-lg" />,
-        },
-        {
             name: "Contact",
             link: "/#contact",
             icon: <FaEnvelope className="text-lg" />,
@@ -63,9 +60,9 @@ export default function NavBar() {
             link: "/projects",
         },
         {
-            name: "Blogs",
-            icon: <FaBlog />,
-            link: "/blogs",
+            name: "Tech Stack",
+            link: "/#tech",
+            icon: <FaLayerGroup className="text-lg" />,
         },
     ];
 
@@ -100,23 +97,45 @@ export default function NavBar() {
                                 isScrolled ? "bg-black/40" : "bg-black/20"
                             } backdrop-blur-md rounded-full transition-all duration-300 border border-white/10`}
                         >
-                            {pages.map((page, index) => (
-                                <Link
-                                    key={page.name}
-                                    href={page.link}
-                                    className={`relative px-1.5 lg:px-4 py-1 lg:py-2 text-xs lg:text-base transition-all duration-300 rounded-full hover:bg-green-500/20 group ${
-                                        index === 0 ? "bg-green-500/20 text-green-400" : ""
-                                    }`}
-                                >
-                                    <div className="flex items-center gap-1 lg:gap-2">
-                                        <span className="text-green-400 text-xs lg:text-lg">{page.icon}</span>
-                                        <span className="hidden lg:inline relative z-10 group-hover:text-green-400 transition-colors">
-                                            {page.name}
-                                        </span>
-                                    </div>
-                                    <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-green-400 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300"></span>
-                                </Link>
-                            ))}
+                            {pages.map(page => {
+                                // Check if current path matches the page link
+                                const isActive =
+                                    (page.link === "/" && pathname === "/") ||
+                                    (page.link !== "/" && pathname.startsWith(page.link)) ||
+                                    (page.link.startsWith("/#") && pathname === "/" && page.link.includes(pathname));
+
+                                return (
+                                    <Link
+                                        key={page.name}
+                                        href={page.link}
+                                        className={`relative px-1.5 lg:px-4 py-1 lg:py-2 text-xs lg:text-base transition-all duration-300 rounded-full hover:bg-green-500/20 group ${
+                                            isActive ? "bg-green-500/20 text-green-400" : ""
+                                        }`}
+                                    >
+                                        <div className="flex items-center gap-1 lg:gap-2">
+                                            <span
+                                                className={`${
+                                                    isActive ? "text-green-400" : "text-gray-300"
+                                                } text-xs lg:text-lg`}
+                                            >
+                                                {page.icon}
+                                            </span>
+                                            <span
+                                                className={`hidden lg:inline relative z-10 ${
+                                                    isActive ? "text-green-400" : ""
+                                                } group-hover:text-green-400 transition-colors`}
+                                            >
+                                                {page.name}
+                                            </span>
+                                        </div>
+                                        <span
+                                            className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-green-400 rounded-full ${
+                                                isActive ? "opacity-100" : "opacity-0"
+                                            } group-hover:opacity-100 transition-all duration-300`}
+                                        ></span>
+                                    </Link>
+                                );
+                            })}
                         </div>
                     </div>
 
@@ -163,18 +182,27 @@ export default function NavBar() {
 
                     {/* Navigation Icons */}
                     <div className="flex items-center gap-5">
-                        {mobilePages.map(page => (
-                            <Link
-                                key={page.name}
-                                href={page.link}
-                                className="relative p-2 transition-all duration-200 hover:text-green-400 active:scale-95 group"
-                            >
-                                <span className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 text-[10px] opacity-0 group-hover:opacity-100 transition-all duration-300">
-                                    {page.name}
-                                </span>
-                                {page.icon}
-                            </Link>
-                        ))}
+                        {mobilePages.map(page => {
+                            // Check if current path matches the page link for mobile
+                            const isActive =
+                                (page.link === "/" && pathname === "/") ||
+                                (page.link !== "/" && pathname.startsWith(page.link));
+
+                            return (
+                                <Link
+                                    key={page.name}
+                                    href={page.link}
+                                    className={`relative p-2 transition-all duration-200 ${
+                                        isActive ? "text-green-400" : ""
+                                    } hover:text-green-400 active:scale-95 group`}
+                                >
+                                    <span className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 text-[10px] opacity-0 group-hover:opacity-100 transition-all duration-300">
+                                        {page.name}
+                                    </span>
+                                    {page.icon}
+                                </Link>
+                            );
+                        })}
                     </div>
 
                     {/* Theme toggle */}
