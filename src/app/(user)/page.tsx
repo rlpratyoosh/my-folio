@@ -276,14 +276,16 @@ export default function Home() {
                                 ></span>
                             </motion.button>
                         </Link>
-                        {/* Lootbox button with icon */}
-                        <motion.button
-                            className="flex items-center gap-3 text-sm md:text-base lg:text-lg border-2 border-green-300 rounded-full px-6 py-3 md:px-7 md:py-3.5"
-                            whileHover={{ scale: 1.05, borderColor: "rgb(74, 222, 128)" }}
-                            whileTap={{ scale: 0.98 }}
-                        >
-                            Open LootBox <PiTreasureChestFill className="text-lg md:text-xl lg:text-2xl" />
-                        </motion.button>
+                        {/* Lootbox button */}
+                        <a href="/Resume.pdf" target="_blank" rel="noopener noreferrer">
+                            <motion.button
+                                className="flex items-center gap-3 text-sm md:text-base lg:text-lg border-2 border-green-300 rounded-full px-6 py-3 md:px-7 md:py-3.5"
+                                whileHover={{ scale: 1.05, borderColor: "rgb(74, 222, 128)" }}
+                                whileTap={{ scale: 0.98 }}
+                            >
+                                Open LootBox <PiTreasureChestFill className="text-lg md:text-xl lg:text-2xl" />
+                            </motion.button>
+                        </a>
                     </motion.div>
                 </motion.div>
                 {/* Profile img with effects */}
