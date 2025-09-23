@@ -20,15 +20,25 @@ export const db = {
             ytLink?: string;
             slug: string;
             builtAt: string;
+            order: number;
         }) => await prisma.project.create({ data }),
         findAll: async () =>
             await prisma.project.findMany({
                 include: { techs: { include: { tech: true } }, tags: { include: { tag: true } } },
+                orderBy: {
+                    order: "asc",
+                },
             }),
         findUnique: async (where: { slug: string }) =>
             await prisma.project.findUnique({
                 where,
                 include: { techs: { include: { tech: true } }, tags: { include: { tag: true } } },
+            }),
+        findHighestOrder: async () =>
+            await prisma.project.aggregate({
+                _max: {
+                    order: true,
+                },
             }),
         update: async (
             where: { slug: string },

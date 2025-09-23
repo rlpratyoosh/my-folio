@@ -25,6 +25,13 @@ export async function POST(req: Request) {
         if (!result.success)
             return NextResponse.json({ error: result.error.issues[0].message || "Invalid Input" }, { status: 400 });
 
+        const highestOrderProject = await db.project.findHighestOrder();
+        let order = 0;
+        if(highestOrderProject._max.order != null) 
+            order = highestOrderProject._max.order + 1;
+        else
+            order = 0
+
         const project = await db.project.create({
             name,
             description,
@@ -35,6 +42,7 @@ export async function POST(req: Request) {
             ytLink,
             slug,
             builtAt,
+            order
         });
 
         if (Array.isArray(tags) && tags.length > 0) {

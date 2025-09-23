@@ -11,7 +11,6 @@ import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import { IoMdClose } from "react-icons/io";
-import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 interface Project extends PrismaProject {
@@ -498,7 +497,7 @@ export default function ProjectsPage() {
                                             else setSelectedTechs(selectedTechs.filter(t => t != tech.id));
                                         }}
                                     >
-                                        <Image src={tech.iconUrl} alt="icon" width={10} height={10} />
+                                        <img src={tech.iconUrl} alt="icon" width={10} height={10} />
                                     </div>
                                 ))}
                             </div>
