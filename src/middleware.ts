@@ -5,6 +5,7 @@ export default async function middleware(req: NextRequest) {
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
     const { pathname } = req.nextUrl;
 
+    console.log(token);
     if ((!token || token.type !== "ADMIN") && pathname.startsWith("/myzone")) {
         return NextResponse.redirect(new URL("/", req.url));
     }
