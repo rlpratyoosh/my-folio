@@ -105,6 +105,7 @@ export default function Home() {
                 setLoading(true);
                 const response = await fetch("/api/skill", {
                     method: "GET",
+                    cache: 'force-cache',
                 });
                 const data = await response.json();
                 if (data.error) throw new Error(error);
@@ -123,6 +124,7 @@ export default function Home() {
                 setLoading(true);
                 const res = await fetch("/api/techstack", {
                     method: "GET",
+                    cache: 'force-cache'
                 });
                 const data = await res.json();
                 if (data.error) throw new Error(error);
@@ -141,6 +143,7 @@ export default function Home() {
                 setLoading(true);
                 const res = await fetch("/api/project", {
                     method: "GET",
+                    cache: 'force-cache'
                 });
                 const data = await res.json();
                 if (data.error) throw new Error(error);
