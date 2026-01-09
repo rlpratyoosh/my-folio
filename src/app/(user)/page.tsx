@@ -425,7 +425,7 @@ export default function Home() {
                             >
                                 <h3 className="text-xl md:text-2xl lg:text-3xl text-gray-400 mb-3">Coming soon...</h3>
                                 <p className="text-base md:text-lg lg:text-xl text-gray-500">
-                                    The roadmap continues: Backend Mastery with Nest.ks, AI/ML deep dive, and maybe
+                                    The roadmap continues: Backend Mastery with Nest.js, AI/ML deep dive, and maybe
                                     fewer bugs (but no promises) 🤖. Future adventures and experiments yet to be
                                     unlocked…
                                 </p>
